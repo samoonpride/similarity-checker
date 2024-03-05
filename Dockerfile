@@ -1,14 +1,18 @@
 # Use an official Python runtime as a parent image
 FROM python:3.8-slim-buster
 
-# Install ffmpeg
-RUN apt-get update
+ENV WORKERS=2
+
+# Install dependencies
+RUN apt-get update && apt-get install -y ffmpeg
+# Clean up the apt cache by removing /var/lib/apt/lists saves space
+RUN rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container to /app
 WORKDIR /app/similarity-checker
 
 # Add the current directory contents into the container at /app
-ADD . .
+COPY . .
 
 # Upgrade pip
 RUN pip install --upgrade pip
@@ -24,5 +28,5 @@ EXPOSE 8002
 RUN useradd -m myuser
 USER myuser
 
-# Run gunicorn when the container launches
-CMD ["gunicorn", "-w", "4", "-b", ":8002", "similarity_checker:app"]
+# Use environment variables for workers and port with defaults
+CMD gunicorn -w ${WORKERS} -b :8002 similarity_checker:app

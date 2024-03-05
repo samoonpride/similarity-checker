@@ -22,7 +22,7 @@ class IssueDtoList:
         self.issue_dto_list = []
 
     def add(self, issue_dto: IssueDto):
-        if issue_dto not in self.issue_dto_list:
+        if issue_dto.issue_id not in [issue.issue_id for issue in self.issue_dto_list]:
             self.issue_dto_list.append(issue_dto)
 
     def find_by_id(self, issue_id: int):

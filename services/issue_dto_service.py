@@ -16,7 +16,7 @@ def set_issue_dto_list(issue_dto_list=None):
     """Creates a list of issue DTOs from the fetched issue DTOs."""
     for issue in get_all_issue_dto():
         issue_dto = IssueDto(
-            issue["id"],
+            issue["issueId"],
             issue["duplicateIssueId"],
             issue["title"],
             issue["latitude"],
