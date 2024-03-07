@@ -10,15 +10,13 @@ from services.issue_dto_service import set_issue_dto_list
 # Load environment variables from the .env file
 load_dotenv()
 
-# Initialize the IssueSimilarityCheckDtoList
-issue_similarity_check_dto_list = IssueDtoList()
-
 app = Flask(__name__)
 
 
 @app.route('/similarity/issue', methods=['POST'])
 def similarity_issues():
     issue_target = request.get_json()
+    issue_similarity_check_dto_list = IssueDtoList()
     set_issue_dto_list(issue_similarity_check_dto_list)
     ranked_similarity_scores = get_issue_similarity_bubble(
         issue_target,
